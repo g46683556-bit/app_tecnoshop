@@ -1,51 +1,47 @@
 # 🛒 App Tecnoshop  
 Aplicación web **Ecommerce** desarrollada con **Django**, para la venta de productos electrónicos.
 
----
 
-## ⚙️ Configuración del entorno
+# ⚙️ Configuración del entorno
 
-### 1️⃣ Crear e iniciar entorno virtual
+## 1️⃣ Crear e iniciar entorno virtual
 ```bash
 py -m venv venv
-Activar el entorno virtual
-En Windows:
+```
 
-bash
-Copiar código
+Activar el entorno virtual, en Windows:
+```bash
 venv\Scripts\activate
+```
 En macOS / Linux:
-
-bash
-Copiar código
+```bash
 source venv/bin/activate
-2️⃣ Instalar dependencias
+```
+## 2️⃣ Instalar dependencias
 Asegúrate de tener el archivo requirements.txt en el directorio raíz del proyecto.
-
-bash
-Copiar código
+```bash
 pip install -r requirements.txt
-3️⃣ Preparar y migrar la base de datos
+```
+## 3️⃣ Preparar y migrar la base de datos
 Ejecuta las migraciones de Django para crear las tablas necesarias en la base de datos.
-
-bash
-Copiar código
+```bash
 python manage.py makemigrations
 python manage.py migrate
-4️⃣ Crear superusuario
+```
+## 4️⃣ Crear superusuario
 Crea una cuenta de administrador para acceder al panel de administración de Django.
 
-bash
-Copiar código
+```bash
 python manage.py createsuperuser
+```
 Sigue las instrucciones en consola para ingresar usuario, email y contraseña.
 
-5️⃣ Iniciar el servidor
+## 5️⃣ Iniciar el servidor
 Por defecto, el proyecto se ejecuta en el puerto 8000.
 
-bash
-Copiar código
+```bash
 python manage.py runserver
+```
 Luego, accede a la aplicación en tu navegador en:
 👉 http://localhost:8000
 
@@ -73,8 +69,7 @@ pages – Páginas informativas (home, contacto, etc.).
 payments – Procesamiento de pagos.
 
 🧩 Ejecución rápida
-bash
-Copiar código
+```bash
 # Activar entorno virtual
 venv\Scripts\activate
 
@@ -83,3 +78,4 @@ python manage.py migrate
 
 # Iniciar servidor
 python manage.py runserver
+```

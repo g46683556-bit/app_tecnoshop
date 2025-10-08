@@ -1,0 +1,171 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mi Proyecto{% endblock %}</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <style>
+        /* Solo lo necesario para el sticky footer */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        main {
+            flex: 1;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container">
+            <!-- Logo / Marca -->
+            <a class="navbar-brand fw-bold" href="{% url 'home' %}">TecnoShop</a>
+
+            <!-- Botón hamburguesa en móviles -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Menú">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <!-- Enlaces -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'catalog' %}active{% endif %}"
+                           href="{% url 'catalog' %}">Catálogo</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'contact_us' %}">Contacto</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
+                        </li>
+                    {% endif %}
+                </ul>
+
+                <!-- Barra de búsqueda en el navbar -->
+                <form class="d-flex" method="get" action="{% url 'catalog' %}">
+                    <input class="form-control me-2" type="search" name="q" placeholder="Buscar..." value="{{ q }}">
+                    <button class="btn btn-outline-light" type="submit">Buscar</button>
+                </form>
+
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_logout' %}">Cerrar sesión</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'cart' %}">
+                            Carrito 🛒 ({{ user.cart.items.count }})
+                        </a>
+                    </li>
+                </ul>
+                {% else %}
+                <ul class="navbar-nav ms-3">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'account_login' %}">Iniciar sesión</a>
+                    </li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+
+    <main>
+        {% block content %}
+        <!-- Contenido específico de cada página -->
+        {% endblock content %}
+    </main>
+
+    <!-- Footer -->
+<footer class="bg-dark text-light pt-5 pb-3 mt-5">
+    <div class="container">
+        <div class="row">
+            <!-- Acerca de -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">TecnoShop</h5>
+                <p class="small">
+                    Tu tienda de confianza para productos electrónicos, laptops y accesorios. 
+                    Los mejores precios y envíos rápidos.
+                </p>
+            </div>
+
+            <!-- Enlaces rápidos -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Enlaces</h5>
+                <ul class="list-unstyled">
+                    <li><a href="{% url 'home' %}" class="text-light text-decoration-none">Inicio</a></li>
+                    <li><a href="{% url 'catalog' %}" class="text-light text-decoration-none">Catálogo</a></li>
+                    <li><a href="{% url 'contact_us' %}" class="text-light text-decoration-none">Contacto</a></li>
+                </ul>
+            </div>
+
+            <!-- Contacto -->
+            <div class="col-md-4 mb-3">
+                <h5 class="fw-bold">Contáctanos</h5>
+                <ul class="list-unstyled small">
+                    <li>Email: soporte@tecnoshop.com</li>
+                    <li>Tel: +51 999 999 999</li>
+                    <li>Dirección: Av. Siempre Viva 123, Arequipa</li>
+                </ul>
+                <!-- Redes sociales -->
+                <div>
+                    <a href="#" class="text-light me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-light me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-light"><i class="bi bi-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-light">
+
+        <!-- Derechos reservados -->
+        <div class="text-center small">
+            &copy; {{ now|date:"Y" }} TecnoShop. Todos los derechos reservados.
+        </div>
+    </div>
+</footer>
+<!-- Bootstrap JS con Popper incluido -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+window.addEventListener('mouseover', initLandbot, { once: true });
+window.addEventListener('touchstart', initLandbot, { once: true });
+var myLandbot;
+function initLandbot() {
+  if (!myLandbot) {
+    var s = document.createElement('script');
+    s.type = "module"
+    s.async = true;
+    s.addEventListener('load', function() {
+      var myLandbot = new Landbot.Livechat({
+        configUrl: 'https://storage.googleapis.com/landbot.online/v3/H-3168095-94NJI0WQHEXH7ZQI/index.json',
+      });
+    });
+    s.src = 'https://cdn.landbot.io/landbot-3/landbot-3.0.0.mjs';
+    var x = document.getElementsByTagName('script')[0];
+    x.parentNode.insertBefore(s, x);
+  }
+}
+</script>
+
+</body>
+
+</html>

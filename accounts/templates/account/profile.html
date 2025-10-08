@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+
+{% block title %}Mi Perfil{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4 text-center">Mi Perfil</h2>
+
+                    <!-- Mensajes de éxito / error -->
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Información del usuario -->
+                    <h5 class="mb-3">Información personal</h5>
+                    <ul class="list-group mb-4">
+                        <li class="list-group-item">
+                            <strong>Nombre de usuario:</strong> {{ user.username }}
+                        </li>
+                        <li class="list-group-item">
+                            <strong>Email:</strong> {{ user.email }}
+                        </li>
+                    </ul>
+
+                    <!-- Formulario para actualizar email -->
+                    <h5 class="mb-3">Actualizar Email</h5>
+                    <form method="POST" action="#" class="mb-4">
+                        {% csrf_token %}
+                        <div class="input-group">
+                            <input type="email" name="email" class="form-control" placeholder="Nuevo email" required>
+                            <button type="submit" class="btn btn-primary">Actualizar</button>
+                        </div>
+                    </form>
+
+                    <!-- Formulario para cambiar contraseña -->
+                    <h5 class="mb-3">Cambiar contraseña</h5>
+                    <form method="POST" action="{% url 'account_change_password' %}">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="old_password" class="form-label">Contraseña actual</label>
+                            <input type="password" name="old_password" id="old_password" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password1" class="form-label">Nueva contraseña</label>
+                            <input type="password" name="new_password1" id="new_password1" class="form-control" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="new_password2" class="form-label">Confirmar nueva contraseña</label>
+                            <input type="password" name="new_password2" id="new_password2" class="form-control" required>
+                        </div>
+                        <button type="submit" class="btn btn-success w-100">Cambiar contraseña</button>
+                    </form>
+
+                    <!-- Historial de pedidos (ejemplo) -->
+                    <h5 class="mt-5 mb-3">Mis pedidos</h5>
+                    {% if orders %}
+                        {% for order in orders %}
+                            <div class="card mb-3">
+                                <div class="card-header">
+                                    Pedido #{{ order.id }} - {{ order.created_at|date:"d/m/Y H:i" }}
+                                </div>
+                                <div class="card-body">
+                                    <p><strong>Total:</strong> S/ {{ order.total }}</p>
+                                    <p><strong>Enviado a:</strong> {{ order.address }}</p>
+
+                                    <h6>Productos:</h6>
+                                    <ul>
+                                        {% for item in order.items.all %}
+                                            <li>{{ item.product_name }} (x{{ item.quantity }}) - S/ {{ item.subtotal }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="text-muted">Aún no tienes pedidos.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

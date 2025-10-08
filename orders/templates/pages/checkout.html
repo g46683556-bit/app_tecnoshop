@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+
+{% block title %}Finalizar Compra{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center text-primary mb-4">Finalizar Compra</h2>
+
+    <div class="row">
+        <!-- Resumen del carrito -->
+        <div class="col-md-6 mb-4">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Resumen de tu pedido</h4>
+                    {% if cart.items.all %}
+                    <ul class="list-group mb-3">
+                        {% for item in cart.items.all %}
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <strong>{{ item.product.name }}</strong><br>
+                                Cantidad: {{ item.quantity }}
+                            </div>
+                            <span>S/ {{ item.subtotal }}</span>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <h5 class="text-end">Total: <span class="text-success">S/ {{ cart.total }}</span></h5>
+                    {% else %}
+                    <p class="text-muted">Tu carrito está vacío.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Formulario de envío + pago -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h4 class="card-title mb-3">Datos de Envío y Pago</h4>
+                    <form method="post">
+                        {% csrf_token %}
+                        <!-- Datos de envío -->
+                        <div class="mb-3">
+                            <label for="id_full_name" class="form-label">Nombre completo</label>
+                            <input type="text" id="id_full_name" name="full_name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_address" class="form-label">Dirección</label>
+                            <textarea id="id_address" name="address" class="form-control" rows="3" required></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label">Teléfono</label>
+                            <input type="text" id="id_phone" name="phone" class="form-control" required>
+                        </div>
+
+                        <!-- Métodos de pago -->
+                        <div class="mb-3">
+                            <label class="form-label">Método de Pago</label>
+                            <select name="payment_method" class="form-select" required>
+                                {% for method in request.user.payment_methods.all %}
+                                    <option value="{{ method.id }}">
+                                        {{ method.get_payment_type_display }} 
+                                        {% if method.masked_card %} ({{ method.masked_card }}){% endif %}
+                                    </option>
+                                {% empty %}
+                                    <option disabled>No tienes métodos guardados</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <a href="{% url 'payments:add_method' %}" class="btn btn-sm btn-secondary mb-3">Agregar nuevo método</a>
+
+                        <button type="submit" class="btn btn-success w-100">Confirmar Pedido</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+</div>
+{% endblock %}

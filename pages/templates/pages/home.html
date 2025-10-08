@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}Inicio - TecnoShop{% endblock %}
+
+{% block content %}
+<!-- Hero principal -->
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm">
+  <div class="container py-5 text-center">
+    {% if user.is_authenticated %}
+      <h1 class="display-4 fw-bold text-primary">Bienvenido {{ user.username }}</h1>
+    {% else %}
+      <h1 class="display-4 fw-bold text-primary">Bienvenido a TecnoShop</h1>
+    {% endif %}
+    <p class="lead">Encuentra los mejores productos de tecnología al mejor precio.</p>
+    <a href="{% url 'catalog' %}" class="btn btn-lg btn-primary">Ver Catálogo</a>
+  </div>
+</div>
+
+<!-- Sección de categorías destacadas -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Categorías Destacadas</h2>
+  <div class="row text-center">
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <img src="https://res.cloudinary.com/db4psl26k/image/upload/v1757970825/Gemini_Generated_Image_gg48ztgg48ztgg48_u57ba8.png" class="card-img-top" alt="Celulares">
+        <div class="card-body">
+          <h5 class="card-title">Celulares</h5>
+          <a href="{% url 'catalog' %}?categoria=celulares" class="btn btn-outline-primary">Ver más</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <img src="https://res.cloudinary.com/db4psl26k/image/upload/v1757970826/Gemini_Generated_Image_ebalwqebalwqebal_tat2gu.png" class="card-img-top" alt="Laptops">
+        <div class="card-body">
+          <h5 class="card-title">Laptops</h5>
+          <a href="{% url 'catalog' %}?categoria=laptops" class="btn btn-outline-primary">Ver más</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4 mb-4">
+      <div class="card h-100 shadow-sm border-0">
+        <img src="https://res.cloudinary.com/db4psl26k/image/upload/v1757970826/Gemini_Generated_Image_e9bp3ue9bp3ue9bp_ksbkjy.png" class="card-img-top" alt="Accesorios">
+        <div class="card-body">
+          <h5 class="card-title">Accesorios</h5>
+          <a href="{% url 'catalog' %}?categoria=accesorios" class="btn btn-outline-primary">Ver más</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Productos destacados (ejemplo estático) -->
+<div class="container my-5">
+  <h2 class="text-center mb-4">Productos Destacados</h2>
+  <div class="row">
+    {% for producto in productos %}
+    <div class="col-md-3 mb-4">
+      <div class="card h-100 shadow-sm">
+        <img src="{{ producto.image_url }}" 
+             class="card-img-top" alt="{{ producto.nombre }}">
+        <div class="card-body">
+          <h5 class="card-title">{{ producto.name }}</h5>
+          <p class="fw-bold text-success">${{ producto.price }}</p>
+          <a href="{% url 'product_detail' producto.slug %}" class="btn btn-sm btn-primary">Ver detalle</a>
+        </div>
+      </div>
+    </div>
+    {% empty %}
+    <p class="text-center">Aún no hay productos destacados.</p>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

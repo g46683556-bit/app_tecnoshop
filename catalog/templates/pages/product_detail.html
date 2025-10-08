@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Detalles de {{ product.name }}{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="{% url 'catalog' %}">Catálogo</a>
+            </li>
+            <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+        </ol>
+    </nav>
+
+    <!-- Detalle del producto -->
+    <div class="row g-4">
+        <!-- Imagen -->
+        <div class="col-md-6">
+            <div class="card shadow-sm">
+                <img src="{{ product.image_url|default:'https://via.placeholder.com/500x400' }}" 
+                     class="card-img-top img-fluid rounded" alt="{{ product.name }}">
+            </div>
+        </div>
+
+        <!-- Información -->
+        <div class="col-md-6">
+            <h2 class="fw-bold">{{ product.name }}</h2>
+            <p class="text-muted">{{ product.description|linebreaks }}</p>
+            
+            <p class="fs-4 fw-bold text-success">S/ {{ product.price }}</p>
+            <p class="small {% if product.stock > 0 %}text-primary{% else %}text-danger{% endif %}">
+                Stock: {{ product.stock }}
+            </p>
+
+            <div class="d-flex gap-2 mt-3">
+                <form method="post" action="{% url 'add_to_cart' product.id %}" class="d-inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-success">
+                        <i class="bi bi-cart-plus"></i> Añadir al carrito
+                    </button>
+                </form>
+
+                <button onclick="history.back()" class="btn btn-outline-secondary">
+                    ← Volver
+                </button>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Productos sugeridos -->
+    <div class="mt-5">
+        <h3 class="mb-4">Productos sugeridos</h3>
+        <div class="row">
+            {% for product in suggested_products %}
+            <div class="col-md-3 col-sm-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="{{ product.image_url|default:'https://via.placeholder.com/300x200' }}" 
+                         class="card-img-top" alt="{{ product.name }}">
+                    <div class="card-body text-center">
+                        <h6 class="card-title">{{ product.name }}</h6>
+                        <p class="fw-bold text-success">S/ {{ product.price }}</p>
+                        <a href="{% url 'product_detail' product.slug %}" class="btn btn-sm btn-outline-primary">
+                            Ver detalles
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-muted">No hay productos sugeridos por ahora.</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

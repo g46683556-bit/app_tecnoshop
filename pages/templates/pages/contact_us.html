@@ -1,0 +1,69 @@
+{% extends 'base.html' %}
+
+{% block title %}Contacto{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Formulario de contacto -->
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-body p-4">
+                    <h2 class="card-title mb-4 text-center">Contáctanos</h2>
+
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="POST" action="#">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="id_name" class="form-label">Nombre</label>
+                            <input type="text" name="name" id="id_name" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Correo electrónico</label>
+                            <input type="email" name="email" id="id_email" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_subject" class="form-label">Asunto</label>
+                            <input type="text" name="subject" id="id_subject" class="form-control" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_message" class="form-label">Mensaje</label>
+                            <textarea name="message" id="id_message" class="form-control" rows="5" required></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Enviar mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Información de contacto -->
+        <div class="col-md-4 mt-4 mt-md-0">
+            <div class="card shadow-sm p-4 h-100">
+                <h5 class="mb-3">Información de contacto</h5>
+                <p><strong>Email:</strong> soporte@mitienda.com</p>
+                <p><strong>Teléfono:</strong> +51 999 999 999</p>
+                <p><strong>Dirección:</strong> Av. Siempre Viva 123, Arequipa</p>
+
+                <h5 class="mt-4 mb-3">Síguenos</h5>
+                <div class="d-flex gap-3">
+                    <a href="#" class="text-dark fs-4"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-dark fs-4"><i class="bi bi-twitter"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Agregar Método de Pago{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="mb-4">Agregar Método de Pago</h2>
+
+    <form method="post" class="card p-4 shadow-sm">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+
+        <div class="mb-3">
+            <label class="form-label">Tipo de pago</label>
+            {{ form.payment_type }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Alias (opcional)</label>
+            {{ form.alias }}
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Número de tarjeta</label>
+            {{ form.card_number }}
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Fecha de vencimiento (MM/YY)</label>
+                {{ form.card_expiry }}
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">CVV</label>
+                {{ form.card_cvv }}
+            </div>
+        </div>
+
+        <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success">Guardar</button>
+        <a href="{% url 'payments:payment_methods' %}" class="btn btn-secondary">Cancelar</a>
+        </div>
+
+
+
+    </form>
+</div>
+{% endblock %}

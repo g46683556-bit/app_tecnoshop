@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Eliminar Método de Pago{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card p-4 shadow-sm text-center">
+        <h2 class="mb-4 text-danger">Eliminar Método de Pago</h2>
+        <p>
+            ¿Estás seguro de que deseas eliminar
+            <strong>{{ method.get_payment_type_display }}</strong>
+            {% if method.masked_card %} ({{ method.masked_card }}){% endif %}?
+        </p>
+
+        <form method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        </form>
+        <a href="{% url 'payments:payment_methods' %}" class="btn btn-secondary">Cancelar</a>
+    </div>
+</div>
+{% endblock %}

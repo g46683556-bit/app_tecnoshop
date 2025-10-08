@@ -53,29 +53,13 @@ En la sección Catálogo, selecciona la opción para importar productos.
 
 Carga el archivo data_catalog.csv incluido en el repositorio.
 
-🚀 Estructura general de la app
+## 🚀 Estructura general de la app
 La aplicación se compone de las siguientes apps de Django:
 
-accounts – Gestión de usuarios y autenticación.
-
-cart – Manejo del carrito de compras.
-
-catalog – Gestión de productos y categorías.
-
-orders – Procesamiento de pedidos.
-
-pages – Páginas informativas (home, contacto, etc.).
-
-payments – Procesamiento de pagos.
-
-🧩 Ejecución rápida
-```bash
-# Activar entorno virtual
-venv\Scripts\activate
-
-# Aplicar migraciones
-python manage.py migrate
-
-# Iniciar servidor
-python manage.py runserver
-```
+- accounts – Gestión de usuarios y autenticación.
+- cart – Manejo del carrito de compras.
+- catalog – Gestión de productos y categorías.
+- orders – Procesamiento de pedidos.
+- pages – Páginas informativas (home, contacto, etc.).
+- payments – Procesamiento de pagos.
+- pages - Páginas de inicio y contacto

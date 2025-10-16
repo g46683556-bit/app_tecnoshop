@@ -45,13 +45,27 @@ python manage.py runserver
 Luego, accede a la aplicación en tu navegador en:
 👉 http://localhost:8000
 
-🧾 Agregar productos al catálogo
+
+## 6️⃣ Subir productos a través del admin
 Inicia sesión en el panel de administración de Django:
 👉 http://localhost:8000/admin
-
 En la sección Catálogo, selecciona la opción para importar productos.
-
 Carga el archivo data_catalog.csv incluido en el repositorio.
+No es necesario subir un slug, ya que estos se generan automáticamente.
+
+## 7️⃣ Prueba de ETL
+Para probar el funcionamiento del proceso ETL en Django, ejecuta el siguiente comando:
+```bash
+python manage.py run_etl
+```
+
+Asegúrate de que el archivo CSV se encuentre en la carpeta data.
+Este comando se encarga de ordenar y limpiar el contenido del CSV para subirlo automáticamente a la base de datos.
+
+Una vez hecho esto, puedes iniciar el servidor de Django con:
+```bash
+python manage.py runserver
+```
 
 ## 🚀 Estructura general de la app
 La aplicación se compone de las siguientes apps de Django:

@@ -1,0 +1,6 @@
+nombre,descripcion,precio,stock,categoria,imagen,descuento_porcentaje
+Smart TV Samsung 65 pulgadas UHD,"televisor con hdr y conexion wifi", "3,899.00", 12, imagen-video, https://res.cloudinary.com/demo/image/upload/tv_samsung.jpg, "10"
+Auriculares Logitech G435,"auriculares inalambricos livianos , para gaming", "499.50", 20, audio, https://res.cloudinary.com/demo/image/upload/logitech_g435.jpg, ""
+Laptop HP Pavilion 15,"laptop con procesador Ryzen 7 , 16GB RAM , 512GB SSD", "3,299", 8, laptops, https://res.cloudinary.com/demo/image/upload/hp_pavilion15.jpg, "5"
+Tablet Huawei MatePad 11,"Tablet con pantalla 120Hz  y stylus ", "1.999,90", 15, tablets, https://res.cloudinary.com/demo/image/upload/huawei_matepad11.jpg, "0"
+Mouse inalámbrico Logitech M720,"ratón ergonómico para oficina", "249.9", 25, accesorios, https://res.cloudinary.com/demo/image/upload/mouse_logitech_m720.jpg, ""

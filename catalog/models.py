@@ -1,4 +1,5 @@
 import uuid
+from decimal import Decimal
 from django.db import models
 
 class Catalog(models.Model):
@@ -55,6 +56,44 @@ class Catalog(models.Model):
     def save(self, *args, **kwargs):
         if not self.slug:
             # Generar un hash único de 64 caracteres usando uuid4.hex repetido
+            hash_full = (uuid.uuid4().hex + uuid.uuid4().hex)[:64]
+            self.slug = hash_full
+        super().save(*args, **kwargs)
+
+
+
+    # 🟢 Nuevo: descuento en porcentaje (ej. 15 para 15%)
+    discount_percent = models.DecimalField(
+        max_digits=5,
+        decimal_places=2,
+        default=0,
+        help_text="Descuento en porcentaje (ejemplo: 15 para 15%)",
+    )
+
+    # 🟢 Nuevo: campo opcional para un precio con descuento fijo
+    discount_price = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        blank=True,
+        null=True,
+        help_text="Precio con descuento (si aplica)",
+    )
+
+    def __str__(self):
+        return f"{self.name} - {self.category}"
+
+    @property
+    def final_price(self):
+        """Devuelve el precio final considerando descuentos."""
+        if self.discount_price:
+            return self.discount_price
+        if self.discount_percent > 0:
+            descuento = self.price * (self.discount_percent / Decimal(100))
+            return round(self.price - descuento, 2)
+        return self.price
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
             hash_full = (uuid.uuid4().hex + uuid.uuid4().hex)[:64]
             self.slug = hash_full
         super().save(*args, **kwargs)

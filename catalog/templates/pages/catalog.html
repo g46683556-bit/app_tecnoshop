@@ -15,43 +15,20 @@
             <form method="get" class="border p-3 rounded bg-light">
                 <h5 class="mb-3">Filtros</h5>
 
-                {% comment %} <!-- Categorías -->
-                <p class="fw-bold">Categoría</p>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="categoria" value="computadoras"
-                           {% if "Computadoras" in categorias_seleccionadas %}checked{% endif %}>
-                    <label class="form-check-label">Computadoras</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="categoria" value="celulares"
-                           {% if "Celulares" in categorias_seleccionadas %}checked{% endif %}>
-                    <label class="form-check-label">Celulares</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="categoria" value="tablets"
-                           {% if "Tablets" in categorias_seleccionadas %}checked{% endif %}>
-                    <label class="form-check-label">Tablets</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="checkbox" name="categoria" value="accesorios"
-                           {% if "Accesorios" in categorias_seleccionadas %}checked{% endif %}>
-                    <label class="form-check-label">Accesorios</label>
-                </div> {% endcomment %}
                 <!-- Categorías -->
-<p class="fw-bold">Categoría</p>
-{% for valor, nombre in categorias_disponibles %}
-<div class="form-check">
-    <input
-        class="form-check-input"
-        type="checkbox"
-        name="categoria"
-        value="{{ valor }}"
-        {% if valor in categorias_seleccionadas %}checked{% endif %}
-    >
-    <label class="form-check-label">{{ nombre }}</label>
-</div>
-{% endfor %}
-
+                <p class="fw-bold">Categoría</p>
+                {% for valor, nombre in categorias_disponibles %}
+                <div class="form-check">
+                    <input
+                        class="form-check-input"
+                        type="checkbox"
+                        name="categoria"
+                        value="{{ valor }}"
+                        {% if valor in categorias_seleccionadas %}checked{% endif %}
+                    >
+                    <label class="form-check-label">{{ nombre }}</label>
+                </div>
+                {% endfor %}
 
                 <hr>
 
@@ -70,6 +47,12 @@
                     <a href="{% url 'catalog' %}" class="btn btn-outline-secondary">Limpiar filtros</a>
                 </div>
             </form>
+            <br>
+            <div class="d-grid gap-2">
+                <a href="{% url 'export_catalog_pdf' %}" class="btn btn-danger">
+                    📄 Exportar Catálogo en PDF
+                </a>
+            </div>
         </div>
 
         <!-- Productos -->
@@ -82,7 +65,23 @@
                         <div class="card-body d-flex flex-column">
                             <h5 class="card-title">{{ producto.name }}</h5>
                             <p class="card-text">{{ producto.category }}</p>
-                            <p class="fw-bold text-success mt-auto">S/. {{ producto.price }}</p>
+                            {% comment %} <p class="fw-bold text-success mt-auto">S/. {{ producto.price }}</p> {% endcomment %}
+                            {% if producto.final_price < producto.price %}
+                                <p class="text-muted mb-0">
+                                    <del>S/. {{ producto.price }}</del>
+                                </p>
+                                {% if producto.discount_percent > 0 %}
+                                    <p class="fw-bold mb-0 text-danger">Descuento: {{ producto.discount_percent }}%</p>
+                                {% endif %}
+                                <p class="fw-bold text-success">
+                                    S/. {{ producto.final_price }}
+                                </p>
+                                
+                            {% else %}
+                                <p class="fw-bold text-success">
+                                    S/. {{ producto.price }}
+                                </p>
+                            {% endif %}
                             <div class="d-grid gap-2">
                                 <a href="{% url 'product_detail' producto.slug %}" class="btn btn-outline-primary">
                                     Ver detalle

@@ -10,8 +10,8 @@ class Command(BaseCommand):
         print("🔹 Iniciando ETL...")
 
         # 1️⃣ EXTRAER
-        df = extract_from_csv("data/proveedor_impuro_2.csv")
-        print(f"✅ Archivo data/proveedor_impuro_2.csv cargado con {len(df)} filas válidas.")
+        df = extract_from_csv("data/data_impura.csv")
+        print(f"✅ Archivo data/data_impura.csv cargado con {len(df)} filas válidas.")
         print(f"📥 {len(df)} registros leídos")
 
         # 🔹 Renombrar columnas a formato estándar (inglés)
